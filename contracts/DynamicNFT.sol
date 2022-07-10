@@ -9,5 +9,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 
 contract DynamicNFT is ERC721URIStorage {
-    
+    using Strings for uint256;
+    using Counters for Counters.Counter;
+    Counters.Counter private tokenIDs;
 }
