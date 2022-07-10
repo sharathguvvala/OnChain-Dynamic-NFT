@@ -12,4 +12,6 @@ contract DynamicNFT is ERC721URIStorage {
     using Strings for uint256;
     using Counters for Counters.Counter;
     Counters.Counter private tokenIDs;
+    mapping (uint256 => uint256) public tokenIdsToLevels;
+    constructor() ERC721("OnChainDynamicNFT", "ODN") {}
 }
