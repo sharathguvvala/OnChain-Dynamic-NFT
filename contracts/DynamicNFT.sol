@@ -43,4 +43,25 @@ contract DynamicNFT is ERC721URIStorage {
         uint256 levels = tokenIdToLevels[tokenId];
         return levels.toString();
     }
+
+    function getTokenURI(uint256 tokenId) public returns (string memory) {
+        bytes memory dataURI = abi.encodePacked(
+            "{",
+            '"name": "OnChain Dyamic NFT #',
+            tokenId.toString(),
+            '",',
+            '"description": "Dynamic NFT",',
+            '"image": "',
+            generateCharacter(tokenId),
+            '"',
+            "}"
+        );
+        return
+            string(
+                abi.encodePacked(
+                    "data:application/json;base64,",
+                    Base64.encode(dataURI)
+                )
+            );
+    }
 }
