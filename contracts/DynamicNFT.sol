@@ -72,4 +72,15 @@ contract DynamicNFT is ERC721URIStorage {
         tokenIdToLevels[newItemId] = 0;
         _setTokenURI(newItemId, getTokenURI(newItemId));
     }
+
+    function upgrade(uint256 tokenId) public {
+        require(_exists(tokenId));
+        require(
+            ownerOf(tokenId) == msg.sender,
+            "You must own this NFT to upgrade it!"
+        );
+        uint256 currentLevel = tokenIdToLevels[tokenId];
+        tokenIdToLevels[tokenId] = currentLevel + 1;
+        _setTokenURI(tokenId, getTokenURI(tokenId));
+    }
 }
