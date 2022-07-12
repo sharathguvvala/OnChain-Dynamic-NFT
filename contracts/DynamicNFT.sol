@@ -16,7 +16,7 @@ contract DynamicNFT is ERC721URIStorage {
 
     constructor() ERC721("OnChainDynamicNFT", "ODN") {}
 
-    function generateNFT() public returns (string memory) {
+    function generateNFT(uint256 tokenId) public view returns (string memory) {
         bytes memory svg = abi.encodePacked(
             '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350">',
             "<style>.base { fill: white; font-family: serif; font-size: 14px; }</style>",
@@ -40,11 +40,11 @@ contract DynamicNFT is ERC721URIStorage {
     }
 
     function getLevels(uint256 tokenId) public view returns (string memory) {
-        uint256 levels = tokenIdToLevels[tokenId];
+        uint256 levels = tokenIdsToLevels[tokenId];
         return levels.toString();
     }
 
-    function getTokenURI(uint256 tokenId) public returns (string memory) {
+    function getTokenURI(uint256 tokenId) public view returns (string memory) {
         bytes memory dataURI = abi.encodePacked(
             "{",
             '"name": "OnChain Dyamic NFT #',
@@ -52,7 +52,7 @@ contract DynamicNFT is ERC721URIStorage {
             '",',
             '"description": "Dynamic NFT",',
             '"image": "',
-            generateCharacter(tokenId),
+            generateNFT(tokenId),
             '"',
             "}"
         );
@@ -66,10 +66,10 @@ contract DynamicNFT is ERC721URIStorage {
     }
 
     function mint() public {
-        _tokenIds.increment();
-        uint256 newItemId = _tokenIds.current();
+        tokenIDs.increment();
+        uint256 newItemId = tokenIDs.current();
         _safeMint(msg.sender, newItemId);
-        tokenIdToLevels[newItemId] = 0;
+        tokenIdsToLevels[newItemId] = 0;
         _setTokenURI(newItemId, getTokenURI(newItemId));
     }
 
@@ -79,8 +79,8 @@ contract DynamicNFT is ERC721URIStorage {
             ownerOf(tokenId) == msg.sender,
             "You must own this NFT to upgrade it!"
         );
-        uint256 currentLevel = tokenIdToLevels[tokenId];
-        tokenIdToLevels[tokenId] = currentLevel + 1;
+        uint256 currentLevel = tokenIdsToLevels[tokenId];
+        tokenIdsToLevels[tokenId] = currentLevel + 1;
         _setTokenURI(tokenId, getTokenURI(tokenId));
     }
 }
