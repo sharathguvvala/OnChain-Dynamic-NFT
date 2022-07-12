@@ -15,3 +15,5 @@ main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
+
+// smart contract address 0x626950595e5bf87e2a4857de36d939262098c259
