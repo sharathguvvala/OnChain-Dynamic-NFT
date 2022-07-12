@@ -64,4 +64,12 @@ contract DynamicNFT is ERC721URIStorage {
                 )
             );
     }
+
+    function mint() public {
+        _tokenIds.increment();
+        uint256 newItemId = _tokenIds.current();
+        _safeMint(msg.sender, newItemId);
+        tokenIdToLevels[newItemId] = 0;
+        _setTokenURI(newItemId, getTokenURI(newItemId));
+    }
 }
